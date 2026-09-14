@@ -37,7 +37,7 @@ jobs:
 
       # 发布到 PyPI（推荐使用 Trusted Publishing，无需 token）
       - name: Publish to PyPI
-        run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
+        run: uv publish --trusted-publishing always
 
       # 如果不想用 Trusted Publishing，可以改用下面的方式，并设置 PYPI_API_TOKEN secret
       # - name: Publish to PyPI
