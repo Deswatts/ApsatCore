@@ -1,0 +1,56 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  id-token: write   # 必须，用于获取 OIDC 令牌
+  contents: write   # 用于创建 GitHub Release
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+          python-version: "3.13.9"
+
+      - name: Build package
+        run: uv build
+
+      - name: List dist files
+        run: ls -la dist/
+
+      # 发布到 PyPI（推荐使用 Trusted Publishing，无需 token）
+      - name: Publish to PyPI
+        run: uv publish --trusted-publishing always
+
+      # 如果不想用 Trusted Publishing，可以改用下面的方式，并设置 PYPI_API_TOKEN secret
+      # - name: Publish to PyPI
+      #   run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+          name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name }}
+          files: dist/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
