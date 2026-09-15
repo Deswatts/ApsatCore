@@ -116,7 +116,10 @@ def _resolve_api_url(source_url: str):
     if check_url is None:
         source_url = "https://" + source_url
 
-    response = requests.get(source_url)
+    try:
+        response = requests.get(source_url)
+    except requests.exceptions.ConnectionError:
+        return None
     if "x-authlib-injector-api-location" in response.headers:
         new_url = _to_absolute_url(response.headers["x-authlib-injector-api-location"], source_url)
         if new_url != source_url:
@@ -136,6 +139,8 @@ def get_profile(
 
     if mode & consts.TYPE_YGGDRASIL == consts.TYPE_YGGDRASIL:
         url = _resolve_api_url(url)
+        if url is None:
+            return ProfileList([])
 
     profiles = (
         _yggdrasil_profile(url, names)
