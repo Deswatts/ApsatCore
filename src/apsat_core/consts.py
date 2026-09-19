@@ -3,7 +3,7 @@
 # This is free software, and you are welcome to redistribute it
 # under certain conditions; type `show c' for details.
 
-__all__ = ["TYPE_CAPE", "TYPE_MICROSOFT", "TYPE_PROFILE", "TYPE_SKIN", "TYPE_YGGDRASIL", "ALL"]
+__all__ = ["TYPE_CAPE", "TYPE_MICROSOFT", "TYPE_PROFILE", "TYPE_SKIN", "TYPE_YGGDRASIL", "TYPE_ALL"]
 
 
 TYPE_MICROSOFT = int("00001", 2)  # 1
