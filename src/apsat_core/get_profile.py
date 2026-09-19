@@ -54,7 +54,7 @@ def resolve_textures(
             result.append(
                 {
                     "filename": os.path.join(
-                        download_dir, i["profile_name"] + "-skin.png"
+                        download_dir, i["profile_name"], "skin.png"
                     ),
                     "url": i["skin_url"]["url"],
                     "sha256": os.path.basename(
@@ -69,7 +69,7 @@ def resolve_textures(
             result.append(
                 {
                     "filename": os.path.join(
-                        download_dir, i["profile_name"] + "-cape.png"
+                        download_dir, i["profile_name"], "cape.png"
                     ),
                     "url": i["cape_url"]["url"],
                     "sha256": os.path.basename(
