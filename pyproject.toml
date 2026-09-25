@@ -1,7 +1,7 @@
 [project]
 name = "apsat-core"
-version = "1.0.3"
-requires-python = ">=3.10"
+version = "1.0.4"
+requires-python = ">=3.8"
 dependencies = [
     "deswatts-tools>=1.0.0",
     "requests",
